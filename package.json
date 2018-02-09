@@ -1,0 +1,29 @@
+{
+    "name": "mini-middleware",
+    "version": "1.0.0",
+    "description": "Just a simple, zero deps, middleware runner.",
+    "main": "index.js",
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "test": "mocha --bail --check-leaks  test/",
+        "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/"
+    },
+    "keywords": ["middleware"],
+    "author": "Pedro Narciso García Revington <p.revington@gmail.com>",
+    "license": "GPL-2.0",
+    "devDependencies": {
+        "istanbul": "^0.4.5",
+        "mocha": "^5.0.0"
+    },
+    "dependencies": {},
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/revington/mini-middleware.git"
+    },
+    "bugs": {
+        "url": "https://github.com/revington/mini-middleware/issues"
+    },
+    "homepage": "https://github.com/revington/mini-middleware#readme"
+}
