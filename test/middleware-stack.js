@@ -14,7 +14,7 @@ describe('#create(listOfMiddlewares)', function () {
                 n: 0
             };
             var stack = create(fn, fn);
-            stack.use(fn, [fn,[fn,fn]]);
+            stack.use(fn, [fn, [fn, fn]]);
             stack(ctxt);
             assert.deepEqual(6, ctxt.n);
         });
@@ -26,5 +26,24 @@ describe('#create(listOfMiddlewares)', function () {
         var stack = create([fn, fn]);
         stack(ctxt);
         assert.deepEqual(2, ctxt.n);
+    });
+});
+describe('[Optional] callback', function () {
+    describe('When a callback is provided', function () {
+        it('should callback when the last middleware calls #next', function (done) {
+            var stack, context = {
+                n: 0
+            };
+
+            function fn(ctxt, next) {
+                ctxt.n++;
+                return next();
+            }
+            stack = create(fn, fn, fn);
+            stack(context, function (err, context) {
+                assert.deepEqual(context.n, 3);
+                return done();
+            });
+        });
     });
 });

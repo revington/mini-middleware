@@ -16,16 +16,26 @@ function flatten( /*list of middlewares*/ ) {
 function create( /* list of middlewares*/ ) {
     var stack = flatten.apply(null, arguments);
 
-    function runMiniMiddleware(context) {
+    function runMiniMiddleware(context, callback) {
         var i = 0;
-        (function next() {
-            var fn = stack[i++];
+
+        function next(err) {
+            var fn;
+            if (err && callback) {
+                return callback(err);
+            }
+            if (err) {
+                throw err;
+            }
+            fn = stack[i++];
             if (fn) {
                 return fn(context, next);
             }
-        })();
+            return callback && callback(null, context);
+        }
+        next();
     }
-    runMiniMiddleware.use = function (/*list of middlewares*/) {
+    runMiniMiddleware.use = function ( /*list of middlewares*/ ) {
         flatten.apply(null, arguments).forEach(function (x) {
             stack.push(x);
         });
